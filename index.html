@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="EfD2grtQrP8SrfSjTj9p6t0WJaAVZpg06R___BZDpLQ" />
 <title>نبض مغان | پایگاه خبری مغان</title>
 
 <style>
@@ -220,7 +221,7 @@ font-size:22px;
 <a href="#contact">ارتباط با ما</a>
 
 <a class="send-news"
-href="https://github.com/arr549703-cell/arr549703-cell.github.io/issues/new?template=news.yml">
+href="https://github.com/arr549703-cell/arr549703-cell.github.io/issues/new?template=new.yml">
 ➕ ارسال خبر
 </a>
 </nav>
@@ -319,13 +320,11 @@ throw new Error("API error");
 
 const issues = await response.json();
 
-/*
-هر Issue باز که Pull Request نباشد،
-به عنوان خبر نمایش داده می‌شود.
-*/
-
 const news = issues.filter(issue =>
-!issue.pull_request
+!issue.pull_request &&
+issue.labels.some(label =>
+label.name.toLowerCase() === "news"
+)
 );
 
 if(news.length === 0){
@@ -334,6 +333,7 @@ box.innerHTML =
 '<div class="empty">هنوز خبری منتشر نشده است.</div>';
 
 return;
+
 }
 
 box.innerHTML = "";
@@ -347,8 +347,7 @@ getField(body,"عنوان خبر") ||
 issue.title.replace("[خبر]","").trim();
 
 const category =
-getField(body,"دسته‌بندی") ||
-"اخبار";
+getField(body,"دسته‌بندی") || "اخبار";
 
 const content =
 cleanText(getField(body,"متن خبر")) ||
@@ -364,29 +363,19 @@ card.innerHTML = `
 
 <div class="thumb">
 
-${
-image
-?
-`<img src="${image}" alt="${title}">`
-:
-"📰"
-}
+${image
+? `<img src="${image}" alt="${title}">`
+: "📰"}
 
 </div>
 
 <div class="card-body">
 
-<span class="tag">
-${category}
-</span>
+<span class="tag">${category}</span>
 
-<h3>
-${title}
-</h3>
+<h3>${title}</h3>
 
-<p>
-${content}
-</p>
+<p>${content}</p>
 
 </div>
 
@@ -400,8 +389,6 @@ box.appendChild(card);
 
 box.innerHTML =
 '<div class="empty">فعلاً دریافت اخبار امکان‌پذیر نیست.</div>';
-
-console.error(error);
 
 }
 
