@@ -218,7 +218,9 @@ font-size:22px;
 <a href="#news">اجتماعی</a>
 <a href="#news">ورزشی</a>
 <a href="#contact">ارتباط با ما</a>
-<a class="send-news" href="https://github.com/arr549703-cell/arr549703-cell.github.io/issues/new?template=new.yml">
+
+<a class="send-news"
+href="https://github.com/arr549703-cell/arr549703-cell.github.io/issues/new?template=news.yml">
 ➕ ارسال خبر
 </a>
 </nav>
@@ -233,9 +235,12 @@ font-size:22px;
 
 <div class="hero">
 <div class="hero-image">📰</div>
+
 <div class="hero-content">
 <span class="tag">نبض مغان</span>
+
 <h2>به پایگاه خبری نبض مغان خوش آمدید</h2>
+
 <p>
 اخبار، رویدادها و اتفاقات مهم منطقه مغان را در اینجا دنبال کنید.
 </p>
@@ -245,7 +250,9 @@ font-size:22px;
 <h2 class="title" id="news">آخرین اخبار</h2>
 
 <div id="news-list" class="grid">
-<div class="empty">در حال دریافت آخرین اخبار...</div>
+<div class="empty">
+در حال دریافت آخرین اخبار...
+</div>
 </div>
 
 </div>
@@ -256,19 +263,24 @@ font-size:22px;
 </footer>
 
 <script>
+
 const API =
 "https://api.github.com/repos/arr549703-cell/arr549703-cell.github.io/issues?state=open&per_page=20";
 
-function getField(body, name){
+function getField(body,name){
+
 const regex = new RegExp(
 "###\\s*" + name + "\\s*\\n([\\s\\S]*?)(?=\\n###|$)",
 "i"
 );
+
 const match = body.match(regex);
+
 return match ? match[1].trim() : "";
 }
 
 function getImage(body){
+
 const match = body.match(
 /https?:\/\/github\.com\/user-attachments\/assets\/[^\s)]+/i
 );
@@ -285,10 +297,12 @@ return markdown ? markdown[1] : "";
 }
 
 function cleanText(text){
+
 return text
 .replace(/!\[[^\]]*\]\([^)]+\)/g,"")
 .replace(/\[([^\]]+)\]\([^)]+\)/g,"$1")
 .trim();
+
 }
 
 async function loadNews(){
@@ -305,16 +319,20 @@ throw new Error("API error");
 
 const issues = await response.json();
 
+/*
+هر Issue باز که Pull Request نباشد،
+به عنوان خبر نمایش داده می‌شود.
+*/
+
 const news = issues.filter(issue =>
-!issue.pull_request &&
-issue.labels.some(label =>
-label.name.toLowerCase() === "news"
-)
+!issue.pull_request
 );
 
 if(news.length === 0){
+
 box.innerHTML =
 '<div class="empty">هنوز خبری منتشر نشده است.</div>';
+
 return;
 }
 
@@ -329,7 +347,8 @@ getField(body,"عنوان خبر") ||
 issue.title.replace("[خبر]","").trim();
 
 const category =
-getField(body,"دسته‌بندی") || "اخبار";
+getField(body,"دسته‌بندی") ||
+"اخبار";
 
 const content =
 cleanText(getField(body,"متن خبر")) ||
@@ -338,20 +357,39 @@ cleanText(getField(body,"متن خبر")) ||
 const image = getImage(body);
 
 const card = document.createElement("article");
+
 card.className = "card";
 
 card.innerHTML = `
+
 <div class="thumb">
-${image
-? `<img src="${image}" alt="${title}">`
-: "📰"}
+
+${
+image
+?
+`<img src="${image}" alt="${title}">`
+:
+"📰"
+}
+
 </div>
 
 <div class="card-body">
-<span class="tag">${category}</span>
-<h3>${title}</h3>
-<p>${content}</p>
+
+<span class="tag">
+${category}
+</span>
+
+<h3>
+${title}
+</h3>
+
+<p>
+${content}
+</p>
+
 </div>
+
 `;
 
 box.appendChild(card);
@@ -363,11 +401,14 @@ box.appendChild(card);
 box.innerHTML =
 '<div class="empty">فعلاً دریافت اخبار امکان‌پذیر نیست.</div>';
 
+console.error(error);
+
 }
 
 }
 
 loadNews();
+
 </script>
 
 </body>
