@@ -9,7 +9,8 @@ body:
     attributes:
       label: عنوان خبر
       description: عنوان خبر را وارد کنید
-      placeholder: مثال: افتتاح پروژه جدید در پارس‌آباد
+      
+   placeholder: "مثال: افتتاح پروژه جدید در پارس‌آباد"
     validations:
       required: true
 
