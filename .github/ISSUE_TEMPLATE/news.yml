@@ -1,46 +1,45 @@
-name: 📰 ارسال خبر
-description: ارسال خبر جدید برای سایت نبض مغان
+name: "📰 ارسال خبر"
+description: "ارسال خبر جدید برای سایت نبض مغان"
 title: "[خبر] "
-labels:
-  - news
+
 body:
   - type: input
     id: title
     attributes:
-      label: عنوان خبر
-      description: عنوان خبر را وارد کنید
-      
-   placeholder: "مثال: افتتاح پروژه جدید در پارس‌آباد"
+      label: "عنوان خبر"
+      description: "عنوان خبر را وارد کنید"
+      placeholder: "مثال: افتتاح پروژه جدید در پارس‌آباد"
     validations:
       required: true
 
   - type: dropdown
     id: category
     attributes:
-      label: دسته‌بندی
+      label: "دسته‌بندی"
       options:
-        - اخبار
-        - اجتماعی
-        - ورزشی
-        - حوادث
-        - اقتصادی
-        - فرهنگی
+        - "اخبار"
+        - "اجتماعی"
+        - "ورزشی"
+        - "حوادث"
+        - "اقتصادی"
+        - "فرهنگی"
     validations:
       required: true
 
   - type: textarea
     id: content
     attributes:
-      label: متن خبر
-      description: متن کامل خبر را بنویسید
-      placeholder: متن خبر را اینجا وارد کنید...
+      label: "متن خبر"
+      description: "متن کامل خبر را بنویسید"
+      placeholder: "متن خبر را اینجا وارد کنید..."
     validations:
       required: true
 
   - type: textarea
     id: image
     attributes:
-      label: تصویر خبر
-      description: در صورت داشتن تصویر، آن را اینجا بارگذاری کنید
+      label: "تصویر خبر"
+      description: "در صورت داشتن تصویر، آن را در این قسمت اضافه کنید"
+      placeholder: "اگر تصویر دارید، اینجا اضافه کنید"
     validations:
       required: false
