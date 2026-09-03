@@ -1,320 +1,374 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نبض مغان | اخبار و رویدادهای مغان</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نبض مغان | پایگاه خبری مغان</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
 
-    body {
-      font-family: Tahoma, Arial, sans-serif;
-      background: #f4f6f8;
-      color: #222;
-      line-height: 1.9;
-    }
+body{
+font-family:Tahoma,Arial,sans-serif;
+background:#f4f6f8;
+color:#17351f;
+line-height:1.9;
+}
 
-    header {
-      background: linear-gradient(135deg, #111827, #b91c1c);
-      color: white;
-      padding: 25px 15px;
-      text-align: center;
-    }
+header{
+background:linear-gradient(135deg,#087a3b,#c9152b);
+color:white;
+padding:30px 15px;
+text-align:center;
+}
 
-    header h1 {
-      font-size: 32px;
-      margin-bottom: 5px;
-    }
+.logo{
+font-size:38px;
+font-weight:bold;
+}
 
-    header p {
-      color: #f3f4f6;
-      font-size: 15px;
-    }
+.subtitle{
+font-size:15px;
+}
 
-    nav {
-      background: white;
-      box-shadow: 0 2px 8px rgba(0,0,0,.08);
-      display: flex;
-      justify-content: center;
-      gap: 25px;
-      padding: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+nav{
+background:white;
+display:flex;
+justify-content:center;
+gap:25px;
+padding:14px 10px;
+box-shadow:0 2px 10px #0002;
+position:sticky;
+top:0;
+z-index:20;
+flex-wrap:wrap;
+}
 
-    nav a {
-      color: #222;
-      text-decoration: none;
-      font-weight: bold;
-    }
+nav a{
+text-decoration:none;
+color:#17351f;
+font-weight:bold;
+}
 
-    nav a:hover {
-      color: #b91c1c;
-    }
+nav a:hover{
+color:#c9152b;
+}
 
-    .container {
-      max-width: 1100px;
-      margin: 25px auto;
-      padding: 0 15px;
-    }
+.send-news{
+background:#087a3b;
+color:white !important;
+padding:7px 14px;
+border-radius:20px;
+}
 
-    .breaking {
-      background: #b91c1c;
-      color: white;
-      border-radius: 10px;
-      padding: 12px 15px;
-      margin-bottom: 25px;
-      font-weight: bold;
-    }
+.container{
+max-width:1100px;
+margin:auto;
+padding:25px 15px;
+}
 
-    .section-title {
-      border-right: 5px solid #b91c1c;
-      padding-right: 12px;
-      margin-bottom: 18px;
-      font-size: 23px;
-    }
+.breaking{
+background:#c9152b;
+color:white;
+padding:13px 18px;
+border-radius:12px;
+margin-bottom:28px;
+font-weight:bold;
+border-right:6px solid #087a3b;
+}
 
-    .main-news {
-      background: white;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 3px 15px rgba(0,0,0,.08);
-      margin-bottom: 30px;
-    }
+.title{
+font-size:24px;
+border-right:5px solid #c9152b;
+padding-right:12px;
+margin:25px 0 18px;
+color:#087a3b;
+}
 
-    .main-news .image {
-      height: 280px;
-      background: linear-gradient(135deg, #374151, #991b1b);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 55px;
-    }
+.hero{
+background:white;
+border-radius:18px;
+overflow:hidden;
+margin-bottom:30px;
+box-shadow:0 5px 20px #0002;
+border-top:5px solid #087a3b;
+}
 
-    .main-news .content {
-      padding: 22px;
-    }
+.hero-image{
+height:230px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:80px;
+background:linear-gradient(135deg,#087a3b,#c9152b);
+color:white;
+}
 
-    .main-news h2 {
-      font-size: 25px;
-      margin-bottom: 10px;
-    }
+.hero-content{
+padding:24px;
+}
 
-    .news-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
+.hero h2{
+font-size:27px;
+margin:8px 0;
+color:#c9152b;
+}
 
-    .card {
-      background: white;
-      border-radius: 13px;
-      overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0,0,0,.07);
-    }
+.tag{
+display:inline-block;
+background:#e8f5ed;
+color:#087a3b;
+padding:3px 12px;
+border-radius:20px;
+font-size:12px;
+font-weight:bold;
+}
 
-    .card .thumb {
-      height: 130px;
-      background: #374151;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 38px;
-    }
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:18px;
+}
 
-    .card .body {
-      padding: 15px;
-    }
+.card{
+background:white;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 3px 14px #0001;
+border-bottom:4px solid #087a3b;
+}
 
-    .card h3 {
-      font-size: 17px;
-      margin-bottom: 8px;
-    }
+.thumb{
+height:145px;
+background:linear-gradient(135deg,#087a3b,#c9152b);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:50px;
+color:white;
+}
 
-    .card p {
-      font-size: 13px;
-      color: #666;
-    }
+.thumb img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
 
-    .tag {
-      display: inline-block;
-      background: #fee2e2;
-      color: #991b1b;
-      border-radius: 20px;
-      padding: 2px 10px;
-      font-size: 11px;
-      margin-bottom: 7px;
-    }
+.card-body{
+padding:17px;
+}
 
-    .about {
-      background: #111827;
-      color: white;
-      border-radius: 15px;
-      padding: 25px;
-      margin-top: 35px;
-    }
+.card h3{
+font-size:18px;
+margin:7px 0;
+color:#c9152b;
+}
 
-    .about h2 {
-      margin-bottom: 10px;
-    }
+.card p{
+font-size:14px;
+color:#444;
+}
 
-    footer {
-      margin-top: 35px;
-      background: #0f172a;
-      color: #ddd;
-      text-align: center;
-      padding: 25px 15px;
-      font-size: 13px;
-    }
+.empty{
+background:white;
+padding:25px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 3px 14px #0001;
+}
 
-    @media (max-width: 800px) {
-      .news-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
+footer{
+margin-top:40px;
+background:#17351f;
+color:white;
+text-align:center;
+padding:25px 15px;
+}
 
-    @media (max-width: 550px) {
-      header h1 {
-        font-size: 27px;
-      }
+@media(max-width:800px){
+.grid{
+grid-template-columns:1fr;
+}
 
-      nav {
-        gap: 12px;
-        font-size: 13px;
-        flex-wrap: wrap;
-      }
+.logo{
+font-size:31px;
+}
 
-      .news-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .main-news .image {
-        height: 210px;
-      }
-    }
-  </style>
+.hero h2{
+font-size:22px;
+}
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <h1>نبض مغان</h1>
-    <p>صدای تازه اخبار، رویدادها و اتفاقات مغان</p>
-  </header>
+<header>
+<div class="logo">نبض مغان</div>
+<div class="subtitle">صدای تازه اخبار، رویدادها و اتفاقات مغان</div>
+</header>
 
-  <nav>
-    <a href="#home">خانه</a>
-    <a href="#news">اخبار</a>
-    <a href="#social">اجتماعی</a>
-    <a href="#sports">ورزشی</a>
-    <a href="#contact">ارتباط با ما</a>
-  </nav>
+<nav>
+<a href="#">خانه</a>
+<a href="#news">اخبار</a>
+<a href="#news">اجتماعی</a>
+<a href="#news">ورزشی</a>
+<a href="#contact">ارتباط با ما</a>
+<a class="send-news" href="https://github.com/arr549703-cell/arr549703-cell.github.io/issues/new?template=new.yml">
+➕ ارسال خبر
+</a>
+</nav>
 
-  <main class="container" id="home">
+<div class="container">
 
-    <div class="breaking">
-      🔴 آخرین اخبار و رویدادهای مغان را از «نبض مغان» دنبال کنید
-    </div>
+<div class="breaking">
+🔴 خبر فوری | آخرین اخبار و رویدادهای منطقه مغان
+</div>
 
-    <h2 class="section-title">خبر ویژه</h2>
+<h2 class="title">خبر ویژه</h2>
 
-    <article class="main-news">
-      <div class="image">📰</div>
+<div class="hero">
+<div class="hero-image">📰</div>
+<div class="hero-content">
+<span class="tag">نبض مغان</span>
+<h2>به پایگاه خبری نبض مغان خوش آمدید</h2>
+<p>
+اخبار، رویدادها و اتفاقات مهم منطقه مغان را در اینجا دنبال کنید.
+</p>
+</div>
+</div>
 
-      <div class="content">
-        <span class="tag">خبر ویژه</span>
-        <h2>نبض مغان؛ روایت تازه‌ای از اخبار منطقه</h2>
-        <p>
-          اینجا محلی برای انتشار تازه‌ترین اخبار، رویدادها،
-          گزارش‌ها و مطالب مهم شهرستان‌های مغان است.
-        </p>
-      </div>
-    </article>
+<h2 class="title" id="news">آخرین اخبار</h2>
 
-    <section id="news">
-      <h2 class="section-title">آخرین اخبار</h2>
+<div id="news-list" class="grid">
+<div class="empty">در حال دریافت آخرین اخبار...</div>
+</div>
 
-      <div class="news-grid">
+</div>
 
-        <article class="card">
-          <div class="thumb">🏙️</div>
-          <div class="body">
-            <span class="tag">اجتماعی</span>
-            <h3>اخبار اجتماعی و شهری مغان</h3>
-            <p>تازه‌ترین رویدادهای اجتماعی و شهری منطقه را دنبال کنید.</p>
-          </div>
-        </article>
+<footer id="contact">
+<p>نبض مغان | پایگاه خبری منطقه مغان</p>
+<p>صدای مردم مغان</p>
+</footer>
 
-        <article class="card">
-          <div class="thumb">⚽</div>
-          <div class="body">
-            <span class="tag">ورزشی</span>
-            <h3>اخبار ورزشی منطقه</h3>
-            <p>نتایج، مسابقات و مهم‌ترین اخبار ورزشی مغان.</p>
-          </div>
-        </article>
+<script>
+const API =
+"https://api.github.com/repos/arr549703-cell/arr549703-cell.github.io/issues?state=open&per_page=20";
 
-        <article class="card">
-          <div class="thumb">🌾</div>
-          <div class="body">
-            <span class="tag">کشاورزی</span>
-            <h3>کشاورزی و اقتصاد مغان</h3>
-            <p>خبرها و گزارش‌های مرتبط با اقتصاد و کشاورزی منطقه.</p>
-          </div>
-        </article>
+function getField(body, name){
+const regex = new RegExp(
+"###\\s*" + name + "\\s*\\n([\\s\\S]*?)(?=\\n###|$)",
+"i"
+);
+const match = body.match(regex);
+return match ? match[1].trim() : "";
+}
 
-        <article class="card">
-          <div class="thumb">🏛️</div>
-          <div class="body">
-            <span class="tag">سیاسی</span>
-            <h3>اخبار سیاسی و مدیریتی</h3>
-            <p>مهم‌ترین اخبار مدیریت شهری و تحولات منطقه.</p>
-          </div>
-        </article>
+function getImage(body){
+const match = body.match(
+/https?:\/\/github\.com\/user-attachments\/assets\/[^\s)]+/i
+);
 
-        <article class="card">
-          <div class="thumb">🚑</div>
-          <div class="body">
-            <span class="tag">حوادث</span>
-            <h3>حوادث و اطلاعیه‌ها</h3>
-            <p>اطلاعیه‌ها و اخبار مهم حوادث منطقه.</p>
-          </div>
-        </article>
+if(match){
+return match[0];
+}
 
-        <article class="card">
-          <div class="thumb">📢</div>
-          <div class="body">
-            <span class="tag">اطلاعیه</span>
-            <h3>اطلاعیه‌های مهم</h3>
-            <p>اطلاعیه‌ها و پیام‌های ضروری برای مردم مغان.</p>
-          </div>
-        </article>
+const markdown = body.match(
+/!\[[^\]]*\]\((https?:\/\/[^\s)]+)\)/i
+);
 
-      </div>
-    </section>
+return markdown ? markdown[1] : "";
+}
 
-    <section class="about" id="social">
-      <h2>درباره نبض مغان</h2>
-      <p>
-        «نبض مغان» یک پایگاه خبری و اطلاع‌رسانی با هدف پوشش
-        اخبار و رویدادهای منطقه مغان است.
-      </p>
-    </section>
+function cleanText(text){
+return text
+.replace(/!\[[^\]]*\]\([^)]+\)/g,"")
+.replace(/\[([^\]]+)\]\([^)]+\)/g,"$1")
+.trim();
+}
 
-  </main>
+async function loadNews(){
 
-  <footer id="contact">
-    <p>© ۱۴۰۵ نبض مغان — تمامی حقوق محفوظ است.</p>
-    <p>پایگاه خبری و اطلاع‌رسانی مغان</p>
-  </footer>
+const box = document.getElementById("news-list");
+
+try{
+
+const response = await fetch(API);
+
+if(!response.ok){
+throw new Error("API error");
+}
+
+const issues = await response.json();
+
+const news = issues.filter(issue =>
+!issue.pull_request &&
+issue.labels.some(label =>
+label.name.toLowerCase() === "news"
+)
+);
+
+if(news.length === 0){
+box.innerHTML =
+'<div class="empty">هنوز خبری منتشر نشده است.</div>';
+return;
+}
+
+box.innerHTML = "";
+
+news.forEach(issue => {
+
+const body = issue.body || "";
+
+const title =
+getField(body,"عنوان خبر") ||
+issue.title.replace("[خبر]","").trim();
+
+const category =
+getField(body,"دسته‌بندی") || "اخبار";
+
+const content =
+cleanText(getField(body,"متن خبر")) ||
+"برای مشاهده جزئیات خبر روی عنوان کلیک کنید.";
+
+const image = getImage(body);
+
+const card = document.createElement("article");
+card.className = "card";
+
+card.innerHTML = `
+<div class="thumb">
+${image
+? `<img src="${image}" alt="${title}">`
+: "📰"}
+</div>
+
+<div class="card-body">
+<span class="tag">${category}</span>
+<h3>${title}</h3>
+<p>${content}</p>
+</div>
+`;
+
+box.appendChild(card);
+
+});
+
+}catch(error){
+
+box.innerHTML =
+'<div class="empty">فعلاً دریافت اخبار امکان‌پذیر نیست.</div>';
+
+}
+
+}
+
+loadNews();
+</script>
 
 </body>
-          </html>
+</html>
