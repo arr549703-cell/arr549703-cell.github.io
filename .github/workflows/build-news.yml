@@ -1,0 +1,138 @@
+name: Build news pages
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "news/**"
+      - "sitemap.xml"
+      - "robots.txt"
+  issues:
+    types: [opened, edited, reopened, closed]
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build static news pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import json, os, re, html, pathlib, urllib.request, urllib.error
+
+          owner_repo = os.environ["GITHUB_REPOSITORY"]
+          api = f"https://api.github.com/repos/{owner_repo}/issues?state=open&per_page=100"
+          req = urllib.request.Request(api, headers={
+              "Accept": "application/vnd.github+json",
+              "Authorization": f"Bearer {os.environ['GH_TOKEN']}",
+              "X-GitHub-Api-Version": "2022-11-28",
+              "User-Agent": "nabz-moghan-builder"
+          })
+          with urllib.request.urlopen(req) as r:
+              issues = json.load(r)
+
+          site = "https://arr549703-cell.github.io"
+          news_dir = pathlib.Path("news")
+          news_dir.mkdir(exist_ok=True)
+
+          def field(body, name):
+              m = re.search(r"###\\s*" + re.escape(name) + r"\\s*\\n([\\s\\S]*?)(?=\\n###|$)", body or "", re.I)
+              return m.group(1).strip() if m else ""
+
+          def image(body):
+              m = re.search(r'<img[^>]+src=["\'](https?://[^"\']+)', body or "", re.I)
+              if m: return m.group(1)
+              m = re.search(r'!\\[[^]]*\\]\\((https?://[^)\\s]+)', body or "", re.I)
+              if m: return m.group(1)
+              return "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80"
+
+          def paragraphs(text):
+              text = re.sub(r'<img[^>]*>', '', text or '', flags=re.I)
+              parts = [p.strip() for p in re.split(r'\\n\\s*\\n', text) if p.strip()]
+              return "\\n".join(f"<p>{html.escape(p).replace(chr(10), '<br>')}</p>" for p in parts)
+
+          current = set()
+          for issue in issues:
+              if "pull_request" in issue:
+                  continue
+              body = issue.get("body") or ""
+              title = field(body, "عنوان خبر") or re.sub(r"^\\[خبر\\]\\s*", "", issue.get("title","")).strip() or "خبر جدید"
+              category = field(body, "دسته‌بندی") or "اخبار"
+              content = field(body, "متن خبر") or body
+              img = image(body)
+              num = issue["number"]
+              current.add(f"{num}.html")
+              url = f"{site}/news/{num}.html"
+              title_e = html.escape(title)
+              cat_e = html.escape(category)
+              content_html = paragraphs(content)
+              pub = issue.get("created_at","")
+              mod = issue.get("updated_at","")
+              page = f"""<!DOCTYPE html>
+          <html lang="fa" dir="rtl">
+          <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>{title_e} | نبض مغان</title>
+          <meta name="description" content="{html.escape(re.sub(r'\\s+',' ', re.sub('<[^>]+>',' ', content))[:155])}">
+          <meta name="robots" content="index, follow, max-image-preview:large">
+          <link rel="canonical" href="{url}">
+          <meta property="og:type" content="article">
+          <meta property="og:locale" content="fa_IR">
+          <meta property="og:site_name" content="نبض مغان">
+          <meta property="og:title" content="{title_e} | نبض مغان">
+          <meta property="og:description" content="{html.escape(re.sub(r'\\s+',' ', re.sub('<[^>]+>',' ', content))[:155])}">
+          <meta property="og:url" content="{url}">
+          <meta property="og:image" content="{html.escape(img, quote=True)}">
+          <style>
+          *{{box-sizing:border-box}} body{{margin:0;background:#f4f6f5;color:#18231f;font-family:Tahoma,Arial,sans-serif;line-height:2}} .wrap{{max-width:900px;width:94%;margin:30px auto}} article{{background:#fff;border:1px solid #e1e6e3;border-radius:12px;overflow:hidden}} header{{background:#032d20;color:#fff;padding:18px 22px}} header a{{color:#d8c27a;text-decoration:none;font-weight:bold}} .meta{{color:#d5ded9;font-size:12px;margin-top:6px}} .hero{{width:100%;max-height:520px;object-fit:cover;display:block}} .body{{padding:25px}} h1{{font-size:30px;line-height:1.7;margin:0}} .cat{{display:inline-block;background:#07583e;color:#fff;padding:4px 10px;border-radius:5px;font-size:12px;margin-bottom:10px}} p{{font-size:16px;margin:0 0 18px}} footer{{text-align:center;color:#66736d;padding:20px;font-size:12px}}
+          @media(max-width:600px){{h1{{font-size:23px}} .body{{padding:18px}} p{{font-size:15px}}}}
+          </style>
+          <script type="application/ld+json">{json.dumps({
+              "@context":"https://schema.org","@type":"NewsArticle","headline":title,
+              "description":re.sub(r"\\s+"," ",re.sub("<[^>]+>"," ",content))[:155],
+              "image":[img],"datePublished":pub,"dateModified":mod,
+              "mainEntityOfPage":{"@type":"WebPage","@id":url},
+              "publisher":{"@type":"NewsMediaOrganization","name":"نبض مغان","url":site},
+              "articleSection":category,"inLanguage":"fa-IR"
+          }, ensure_ascii=False)}</script>
+          </head>
+          <body><div class="wrap"><article>
+          <header><a href="{site}/">نبض مغان</a><div class="meta">{cat_e} | پایگاه خبری مغان</div></header>
+          <img class="hero" src="{html.escape(img, quote=True)}" alt="{title_e}">
+          <div class="body"><div class="cat">{cat_e}</div><h1>{title_e}</h1>{content_html}</div>
+          </article><footer>© نبض مغان | <a href="{site}/">بازگشت به صفحه اصلی</a></footer></div></body></html>"""
+              (news_dir / f"{num}.html").write_text(page, encoding="utf-8")
+
+          for p in news_dir.glob("*.html"):
+              if p.name not in current:
+                  p.unlink()
+
+          urls = [f"{site}/"] + [f"{site}/news/{n}" for n in sorted(current, key=lambda x:int(x[:-5]))]
+          sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{u}</loc></url>\n" for u in urls) + "</urlset>\n"
+          pathlib.Path("sitemap.xml").write_text(sitemap, encoding="utf-8")
+          pathlib.Path("robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {site}/sitemap.xml\n", encoding="utf-8")
+          PY
+
+      - name: Commit generated files
+        run: |
+          git config user.name "nabz-moghan-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add news sitemap.xml robots.txt
+          if git diff --cached --quiet; then
+            echo "No generated changes."
+          else
+            git commit -m "ساخت صفحات مستقل اخبار و sitemap"
+            git push
+          fi
