@@ -18,6 +18,9 @@
 <meta property="og:description" content="آخرین اخبار و رویدادهای منطقه مغان، پارس‌آباد و استان اردبیل در نبض مغان.">
 <meta property="og:url" content="https://arr549703-cell.github.io/">
 <meta property="og:site_name" content="نبض مغان">
+<meta property="og:image" content="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=80">
+<meta property="og:image:alt" content="نبض مغان | پایگاه خبری مغان">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=80">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="نبض مغان | اخبار مغان، پارس‌آباد و اردبیل">
@@ -31,7 +34,8 @@
   "alternateName":"Nabz Moghan",
   "url":"https://arr549703-cell.github.io/",
   "description":"پایگاه خبری و تحلیلی منطقه مغان، پارس‌آباد و استان اردبیل",
-  "inLanguage":"fa-IR"
+  "inLanguage":"fa-IR",
+  "sameAs":["https://arr549703-cell.github.io/"]
 }
 </script>
 
@@ -634,6 +638,8 @@ footer li{
 const API =
 "https://api.github.com/repos/arr549703-cell/arr549703-cell.github.io/issues?state=open&per_page=30";
 
+const SITE_URL = "https://arr549703-cell.github.io";
+
 /* خواندن فیلدهای فرم خبر */
 function getField(body,name){
 
@@ -776,13 +782,16 @@ async function loadNews(){
       const image =
         getImage(body);
 
+      const newsUrl =
+        SITE_URL + "/news/" + issue.number + ".html";
+
       const card =
         createCard(
           title,
           category,
           content,
           image,
-          issue.html_url
+          newsUrl
         );
 
       container.appendChild(card);
@@ -806,7 +815,7 @@ async function loadNews(){
 
           <div>
             <h3>
-              <a href="${issue.html_url}" target="_blank">
+              <a href="${newsUrl}">
                 ${title}
               </a>
             </h3>
